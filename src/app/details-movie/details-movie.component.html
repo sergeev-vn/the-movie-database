@@ -1,0 +1,65 @@
+<div class="container">
+    <div class="details-movie">
+        <div class="details-movie__poster details-movie__poster--margin">
+            <img class="details-movie__poster-img" [src]="this.apiService.POSTER_URL + detailsMovie.poster_path" />
+        </div>
+        <div class="info">
+            <div class="info__header">
+                <h1 class="title">{{detailsMovie.title}}</h1>
+                <h2 class="subtitle">{{detailsMovie.original_title}}</h2>
+            </div>
+            <div class="info__body">
+                <table class="about">
+                    <tr>
+                        <td class="about__name">Status</td>
+                        <td><span class="about__info">{{detailsMovie.status}}</span></td>
+                    </tr>
+                    <tr>
+                        <td class="about__name">Year</td>
+                        <td><span class="about__info">{{detailsMovie.release_date | date: 'yyyy'}}</span></td>
+                    </tr>
+                    <tr>
+                        <td class="about__name">Country</td>
+                        <td><span class="about__info about__info--delimiter" *ngFor="let country of detailsMovie.production_countries.reverse()">{{country.name}}</span></td>
+                    </tr>
+                    <tr>
+                        <td class="about__name">Tagline</td>
+                        <td><span class="about__info">{{detailsMovie.tagline}}</span></td>
+                    </tr>
+                    <tr>
+                        <td class="about__name">Budget</td>
+                        <td><span class="about__info">{{detailsMovie.budget | currency:'USD':'symbol':'4.0' }}</span></td>
+                    </tr>
+                    <tr>
+                        <td class="about__name">Average vote</td>
+                        <td><span class="about__info">{{detailsMovie.vote_average}} ★</span></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div class="details-desc">
+        {{detailsMovie.overview}}
+    </div>
+    <div class="recommendations">
+        <h1 class="title title--size">Similar movies</h1>
+        <ul class="recommendations__list">
+            <li class="recommendations__item" *ngFor="let recommendation of recommendedMovies">
+                <div class="recommendations__item-poster">
+                    <a class="popular-movies__link" (click)="goToMovieDetails(recommendation)">
+                        <img class="recommendations__item-poster-img" [src]="this.apiService.POSTER_URL + recommendation.poster_path" />
+                    </a>
+                </div>
+                <a class="popular-movies__link" (click)="goToMovieDetails(recommendation)">
+                    <div class="recommendations__item-title">{{recommendation.title}}</div>
+                </a>
+            </li>
+        </ul>
+
+    </div>
+
+
+
+    <a class="btn btn--margin" [routerLink]="['/']">Back to Home</a>
+</div>

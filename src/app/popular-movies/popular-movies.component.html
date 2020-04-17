@@ -1,0 +1,37 @@
+<div class="container">
+<!--    <pre>{{ searchField.length | json}}</pre>-->
+<!--    <pre>{{ searchField | json}}</pre>-->
+    <h1 class="title">Popular movies</h1>
+    <div class="search">
+        <mat-form-field appearance="fill">
+            <mat-label>Search movies</mat-label>
+            <input [(ngModel)]="searchField" (keyup.enter)="searchMovies()" matInput>
+        </mat-form-field>
+    </div>
+
+    <ul class="popular-movies">
+        <li class="popular-movies__item" *ngFor="let popularMovie of popularMoviesResults | paginate: { currentPage: currentPage, itemsPerPage: itemsPerPage }; let i = index" >
+            <div class="popular-movies__position">{{ itemsPerPage * (currentPage - 1) + (i + 1)}}</div>
+            <div class="popular-movies__poster">
+                <a class="popular-movies__link" [routerLink]="['/details', popularMovie.id]">
+                    <img class="popular-movies__poster-img" [src]="this.apiService.POSTER_URL + popularMovie.poster_path" />
+                </a>
+            </div>
+            <div class="popular-movies__info">
+                <a class="popular-movies__link" [routerLink]="['/details', popularMovie.id]">
+                <h3 class="popular-movies__title">{{popularMovie.title}}</h3>
+                <div class="popular-movies__genre">{{popularMovie.translatedGenres.join(', ')}}</div>
+                </a>
+                <div class="popular-movies__desc" ellipsis [ellipsis-content]="popularMovie.overview">
+                </div>
+            </div>
+        </li>
+    </ul>
+    <div class="spinner">
+        <mat-spinner *ngIf="loading"></mat-spinner>
+    </div>
+
+    <pagination-controls class="popular-movies__pagination" (pageChange)="currentPage = $event;"></pagination-controls>
+
+
+</div>
